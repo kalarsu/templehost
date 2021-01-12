@@ -1,0 +1,122 @@
+[
+    {
+      "templeId": 0,
+      "temple": "zanDe",
+      "templeArr": [],
+      "templeName": "沾德壇",
+      "tolReq": 0, 
+      "tolSignin": 0, 
+      "tolHost": 0, 
+      "tolAHost": 0, 
+      "tolDeclass": 0,
+      "tolOthers": 0
+    }, 
+    {
+        "templeId": 1,
+        "temple": "henDe",
+        "templeArr": [],
+        "templeName": "恆德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 2,
+        "temple": "tonDe",
+        "templeArr": [],
+        "templeName": "同德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 3,
+        "temple": "zenDe",
+        "templeArr": [],
+        "templeName": "正德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 4,
+        "temple": "zuDe",
+        "templeArr": [],
+        "templeName": "儒德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 5,
+        "temple": "minDe",
+        "templeArr": [],
+        "templeName": "明德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 6,
+        "temple": "zasanDenDe",
+        "templeArr": [],
+        "templeName": "聖德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 7,
+        "temple": "hanDe",
+        "templeArr": [],
+        "templeName": "涵德壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 8,
+        "temple": "zanWa",
+        "templeArr": [],
+        "templeName": "贊化壇",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }, 
+    {
+        "templeId": 9,
+        "temple": "otherTemple",
+        "templeArr": [],
+        "templeName": "其它單位",
+        "tolReq": 0, 
+        "tolSignin": 0, 
+        "tolHost": 0, 
+        "tolAHost": 0, 
+        "tolDeclass": 0,
+        "tolOthers": 0
+    }
+]

@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+  
+code {
+font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+html{
+	font-size: 22px;
+}
+body{
+	font-size: 100%;
+}
+h1, .h1{
+	font-size: 1.7em;
+}
+h2, .h2{
+	font-size: 1.6em;
+}
+h3, .h3{
+	font-size: 1.5em;
+}
+h4, .h4{
+	font-size: 1.3em;
+}
+h5, .h5{
+	font-size: 1.2em;
+}
+h6, .h6{
+	font-size: 1.1em;
+}
+h6.form-title, .h6.form-title{
+	margin-bottom: 0;
+}
+p{
+	font-size: 100%;	
+}
+.bold{
+	font-weight: bold;
+}
+
+.pagebreak { 
+	page-break-before: always; 
+}
+
+/*-----Table-----*/
+table{
+	width: 100%;
+}
+.table-list .row>div{
+	padding: 10px 15px;
+}
+.table-list-s.row>div{
+	padding: 6px 15px;
+}
+.table-list-l.row>div{
+	padding: 20px;
+}
+.table-border >div{
+	border: 1px solid gray;
+}
+.table-top-margin-s{
+	margin-top: 1rem;
+}
+.table-top-margin-l{
+	margin-top: 5rem;
+}
+.table-divider{
+	margin-bottom: 4rem;
+}
+.table-divider .temple-name{
+	margin-left: 24px;
+}
+.table-divider .temple-name{
+	margin-top: 16px;
+}
+.list-divider h5{
+	padding-top: 2rem;
+	color: #5645a6;
+}
+
+/*-----container -----*/
+.main-container{
+	max-width: 1000px;
+	margin: 0.2rem auto;
+	padding: 20px;
+}
+
+.page-title{
+	text-align: center;
+}
+
+.block-container{
+	margin-top: 1.2rem;
+}
+
+.section-container{
+	margin-top: 10rem;
+}
+.line-spacing-s{
+	margin-top: 14px;
+}
+.line-spacing-m{
+	margin-top: 2rem;
+}
+.line-spacing-l{
+	margin-top: 3rem;
+}
+/* -----Content-----*/
+.num-line, .num-line-m, .num-line-s{
+	display: inline-block;
+	width: 4rem;
+	text-decoration: underline;
+	font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0 .8rem;
+}
+
+.num-line-s{
+	padding: 0 .4rem;
+    width: 2rem;
+}
+.num-line-m{
+    width: 1rem;
+    margin-right: 5px;
+}
+
+#host_p3_by_temple{
+	margin-top: 1rem;
+}
