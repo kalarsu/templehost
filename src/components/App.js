@@ -13,7 +13,7 @@ class App extends Component{
   constructor(){
     super();
     this.state = {
-      event: "", eventName: "", eventDate: "", classMemberText: "",
+      event: "", year1: "", year2: "", eventName: "", eventDate: "", classMemberText: "",
       tolRquired : 0, tolSignin : 0, tolSigninHost : 0, tolSigninAHost : 0,
       tolSigninDeClass : 0, tolSigninOthers : 0, tolSigninClassMember : 0,
       age : 0, gender : "", tolMale : 0, tolFemale : 0 , tolBoy : 0, tolGirl : 0,
@@ -213,14 +213,18 @@ class App extends Component{
   getDataSource(){
     let signUrl, reqUrl;
     const event = this.getUrlParam("event");
+    const year1 = this.getUrlParam("year1");
+    const year2 = this.getUrlParam("year2");
     this.setState({event: event});
+    this.setState({year1: year1});
+    this.setState({year2: year2});
 
 		if( event === "temple" ){ //Friday 
 			signUrl = "signin5";
 			reqUrl = "required5";
 			this.setState({
         eventName: "固本圖強班",
-        eventDate: "05.01.2020",
+        eventDate: "05.01.2021",
         classMemberText: "壇主、講師、副壇主",
         classMember: "hosts"
       });
@@ -229,7 +233,7 @@ class App extends Component{
 			reqUrl = "required6";
 			this.setState({
         eventName: "壇主講師班",
-        eventDate: "05.02.2020",
+        eventDate: "05.02.2021",
         classMemberText: "壇主、講師、副壇主、德字班道親",
         classMember: "hosts-declass"
       });
@@ -238,8 +242,8 @@ class App extends Component{
 			reqUrl = "required7";
       this.setState({
         eventName: "畢班、人才提拔",
-        eventDate: "05.03.2020",
-        classMemberText: "2019 年進修班畢班班員",
+        eventDate: "05.03.2021",
+        classMemberText: year1 + "-" + year2 + " 年進修班畢班班員",
         classMember: "class-member"
       });
     }
