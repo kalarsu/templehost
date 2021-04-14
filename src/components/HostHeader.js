@@ -25,7 +25,7 @@ class HostHeader extends Component{
                     </div>
                     <div className="row">
                         <div className="col-sm-4 col-md-2">班員：</div> 
-                        <div className="col-sm-8 col-md-10">{this.props.classMemberText}</div>
+                        <div className="col-sm-8 col-md-10 class-member">{this.props.classMemberText}</div>
                     </div>
                 </div>
                 <hr/>

@@ -13,7 +13,7 @@ class App extends Component{
   constructor(){
     super();
     this.state = {
-      event: "", gradYear: "", eventName: "", eventDate: "", classMemberText: "",
+      event: "", eventYear: "", eventName: "", eventDate: "", classMemberText: "",
       tolRquired : 0, tolSignin : 0, tolSigninHost : 0, tolSigninAHost : 0,
       tolSigninDeClass : 0, tolSigninOthers : 0, tolSigninClassMember : 0,
       age : 0, gender : "", tolMale : 0, tolFemale : 0 , tolBoy : 0, tolGirl : 0,
@@ -83,7 +83,7 @@ class App extends Component{
     let _templeList = this.state.templeList;
     let _templeId;
     let classMember = this.state.classMember;
-    console.log("classMember=" + classMember);
+    //console.log("classMember=" + classMember);
 
     _signinArr.forEach((element, index)=>{ //check signIn hosts, but not in required list
       id = element[0];
@@ -102,16 +102,18 @@ class App extends Component{
 
       if(this.checkIfClassMember(vow, gradClass) && required ==="no") {
         notClassMemberCount ++;
-        if(classMember !== "class-member"){
+        //console.log("classMember=" + classMember);
+        //if(classMember !== "class-member"){
           console.log("====Signin hosts, but not in required list:" + index + ",name="+name + ", vow=" + vow + ", temple=" + temple + ", gradClass="+gradClass);
-        }
+        //}
       }
       
       if(!this.checkIfClassMember(vow, gradClass)){
         notClassMemberCount++;
-        if(classMember !== "class-member"){
+        //console.log("classMember=" + classMember);
+        //if(classMember !== "class-member"){
           console.log("====Signin hosts, but not class member:" + index + ",name="+name + ", vow=" + vow + ", temple=" + temple + ", gradClass="+gradClass);
-        }
+        //}
         _templeList[_templeId]["tolOthers"] ++;
       }
       
@@ -190,7 +192,7 @@ class App extends Component{
     
   }
 
-  genAttendanceSummary(gender){
+  genAttendanceSummary(gender, name){
     switch(gender){
       case "乾":
         this.setState({tolMale: this.state.tolMale +1});
@@ -205,6 +207,7 @@ class App extends Component{
         this.setState({tolGirl: this.state.tolGirl +1});
         break;
       default:
+        console.log("! Gener not clear: " + gender + ", name=" + name);
         break;
     }
     this.setState({tolSignin: this.state.tolSignin +1});
@@ -213,13 +216,13 @@ class App extends Component{
   getDataSource(){
     let signUrl, reqUrl;
     const event = this.getUrlParam("event");
-    const gradYear = this.getUrlParam("gradYear");
+    const eventYear = this.getUrlParam("eventYear");
     this.setState({event: event});
-    this.setState({gradYear: gradYear});
+    this.setState({eventYear: eventYear});
 
 		if( event === "temple" ){ //Friday 
-			signUrl = "signin5-" + gradYear;
-			reqUrl = "required5-" + gradYear;
+			signUrl = "signin5-" + eventYear;
+			reqUrl = "required5-" + eventYear;
 			this.setState({
         eventName: "固本圖強班",
         eventDate: "05.01.2020",
@@ -227,8 +230,8 @@ class App extends Component{
         classMember: "hosts"
       });
 		}else if(event === "host"){ //Saturday
-			signUrl = "signin6-" + gradYear;
-			reqUrl = "required6-" + gradYear;
+			signUrl = "signin6-" + eventYear;
+			reqUrl = "required6-" + eventYear;
 			this.setState({
         eventName: "壇主講師班",
         eventDate: "05.02.2020",
@@ -236,12 +239,12 @@ class App extends Component{
         classMember: "hosts-declass"
       });
 		}else{ //Sunday Class memeber
-			signUrl = "signin7-" + gradYear;
-			reqUrl = "required7-" + gradYear;
+			signUrl = "signin7-" + eventYear;
+			reqUrl = "required7-" + eventYear;
       this.setState({
         eventName: "畢班、人才提拔",
         eventDate: "05.03.2020",
-        classMemberText: gradYear + " 年進修班畢班班員",
+        classMemberText: eventYear + " 年進修班畢班班員",
         classMember: "class-member"
       });
     }
@@ -282,12 +285,14 @@ class App extends Component{
       vow = this.checkVows(id, type, name, item.vows, item.taoClasses);
       gradClass = this.checkGradClass(name, item.taoClasses);
       
-      if(temple!==undefined){
-        temple = temple.substring(0,2);
-        templeId = this.checkTempleId(temple);
-        if (temple==="崇慧") temple = "沾德";
+      if(temple==undefined) {
+        temple = "其它";
+        console.log("! Name=" + name + "--has no temple assigned, assigned to 其它 for now.");
       }
-
+      temple = temple.substring(0,2);
+      templeId = this.checkTempleId(temple);
+      if (temple==="崇慧") temple = "沾德";
+      //console.log("templeId=" + templeId);
       dataObj[id] = [name, gender, temple, vow, gradClass];
       dataArr.push([id, name, gender, temple, vow, gradClass]);
 
@@ -300,7 +305,7 @@ class App extends Component{
           this.setState({tolRquired: this.state.tolRquired +1});
           
           //form class memeber obj, and summary
-          
+          //console.log("gradClass=" + gradClass);
           switch(gradClass){
             case "1xingMing":
               xingMing.push([id, name, gender, temple, vow, gradClass]);
@@ -337,7 +342,7 @@ class App extends Component{
           }
         }
       }else{ //type === "signin"
-        this.genAttendanceSummary(gender); // upate 活動人數統計 summary
+        this.genAttendanceSummary(gender, name); // upate 活動人數統計 summary
 
         if(classMember==="class-member" && gradClass!==undefined && gradClass!==""){// Sunday , only graducated class memeber
           
@@ -388,7 +393,7 @@ class App extends Component{
         classMemberObj.chongDe = chongDe;
         this.setState({classMemberObj: classMemberObj});
         this.setState({templeClassSummaryObj: templeClassSummaryObj});
-        console.log("classMemberObj=" + JSON.stringify(classMemberObj));
+        //console.log("classMemberObj=" + JSON.stringify(classMemberObj));
         // console.log("templeClassSummaryObj=" + JSON.stringify(templeClassSummaryObj));
       }
       
@@ -492,19 +497,19 @@ class App extends Component{
   }
 
   checkGradClass(name, taoClasses){
-    const gradYear = this.state.gradYear;
-    console.log("gradYear=" + gradYear);
+    const eventYear = this.state.eventYear;
+    //console.log("eventYear=" + eventYear);
     if(taoClasses){
       if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate) {
-        if (taoClasses.chongDe.completionDate.substr(0, 10).includes(gradYear)) return "5chongDe" ;
+        if (taoClasses.chongDe.completionDate.substr(0, 10).includes(eventYear)) return "5chongDe" ;
       }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate){
-        if (taoClasses.xingDe.completionDate.substr(0, 10).includes(gradYear)) return "4xingDe";
+        if (taoClasses.xingDe.completionDate.substr(0, 10).includes(eventYear)) return "4xingDe";
       }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate){
-        if (taoClasses.peiDe.completionDate.substr(0, 10).includes(gradYear)) return "3peiDe";
+        if (taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear)) return "3peiDe";
       }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate){
-        if (taoClasses.zhiShan.completionDate.substr(0, 10).includes(gradYear)) return "2zhiShan";
+        if (taoClasses.zhiShan.completionDate.substr(0, 10).includes(eventYear)) return "2zhiShan";
       }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate){
-        if (taoClasses.xingMing.completionDate.substr(0, 10).includes(gradYear)) return "1xingMing";
+        if (taoClasses.xingMing.completionDate.substr(0, 10).includes(eventYear)) return "1xingMing";
       }else{ //others 
         return "";
       }
@@ -563,7 +568,7 @@ class App extends Component{
   }
 
   getJsonData(_url, callback){
-    //console.log("Json _url=" + _url);
+    console.log("Json _url=" + _url);
     fetch('./json/'+_url + '.json')
     .then(response => response.json())
     .then(result => {
@@ -631,6 +636,7 @@ class App extends Component{
         <hr/>
         <ClassAttendList
           event = {this.state.event}
+          eventYear = {this.state.eventYear}
           templeClassSummaryObj = {this.state.templeClassSummaryObj}
           classSummaryArr = {this.state.classSummaryArr}
           classMemberObj = {this.state.classMemberObj}

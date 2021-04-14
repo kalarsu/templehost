@@ -9,7 +9,7 @@ class ClassAttendList extends Component{
             <div className="row">
                 <div className="col-md-12">
                     <h1>進修班畢班名冊</h1>
-                    <p>2019.05.12 發一崇德進修班畢班</p>
+                    <p>{this.props.eventYear} 發一崇德進修班畢班</p>
                 </div>
             </div>
             <div className="table-content">
