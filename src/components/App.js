@@ -46,6 +46,13 @@ class App extends Component{
 				"xingDe": [],
 				"chongDe": []
       },
+      classVowObj: {
+				"xingMing": "辦事人員",
+				"zhiShan": "講員",
+				"peiDe": "",
+				"xingDe": "",
+				"chongDe": ""
+      },
       classSummaryArr:[
 				["新民","xingMing",0,0,0,0],
 				["至善","zhiShan",0,0,0,0],
@@ -110,7 +117,6 @@ class App extends Component{
       
       if(!this.checkIfClassMember(vow, gradClass)){
         notClassMemberCount++;
-        //console.log("classMember=" + classMember);
         //if(classMember !== "class-member"){
           console.log("====Signin hosts, but not class member:" + index + ",name="+name + ", vow=" + vow + ", temple=" + temple + ", gradClass="+gradClass);
         //}
@@ -253,18 +259,26 @@ class App extends Component{
     this.getJsonData(signUrl, (signindata) => {
       this.getJsonData(reqUrl, (reqdata)=> {
 
-        this.setState({
-          requiredObj: this.jsonToObj("required",reqdata),
-          signinObj: this.jsonToObj("signin",signindata)
+        this.jsonToObj("signin",signindata, (_dataObj)=>{
+          //must have signinObj created first, then later on can check if required class member sign in or not
+          this.setState({
+            signinObj: _dataObj
+          });
+          this.jsonToObj("required",reqdata, (_dataObj)=>{
+            this.setState({
+              requiredObj: _dataObj
+            });
+          });
         });
-
         this.genReqListByTemple();
 
       });
     });
   }
 
-  jsonToObj(type,data){
+  jsonToObj(type, data, callback){
+    console.log("jsonToObj Type=" + type);
+
     let classMember= "", dataObj={}, dataArr=[], 
         id, name, gender, temple, templeId, vow, gradClass, 
         xingMing=[], zhiShan=[],peiDe=[], xingDe=[], chongDe=[],
@@ -297,6 +311,7 @@ class App extends Component{
       dataArr.push([id, name, gender, temple, vow, gradClass]);
 
       if(type ==="required") { //班員出席統計 summary section only
+        //console.log(id + "-Checked?" + this.checkIfSignin(id));
         if(classMember==="hosts" && vow !== "6others" && vow !== "5declass"){ //Friday
           this.setState({tolRquired: this.state.tolRquired +1});
         }else if(classMember ==="hosts-declass" && vow !== "6others"){ //Saturday hosts + declass
@@ -308,32 +323,32 @@ class App extends Component{
           //console.log("gradClass=" + gradClass);
           switch(gradClass){
             case "1xingMing":
-              xingMing.push([id, name, gender, temple, vow, gradClass]);
+              xingMing.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
               (gender==="乾") ? xingMingSum[2]++ : xingMingSum[3]++;
               
               templeClassSummaryObj[templeId][2][0][0]= "新民";
               templeClassSummaryObj[templeId][2][0][1]++;
               break;
             case "2zhiShan":
-              zhiShan.push([id, name, gender, temple, vow, gradClass]);
+              zhiShan.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
               (gender==="乾") ? zhiShanSum[2]++ : zhiShanSum[3]++;
               templeClassSummaryObj[templeId][2][1][0]= "至善";
               templeClassSummaryObj[templeId][2][1][1]++;
               break;
             case "3peiDe":
-              peiDe.push([id, name, gender, temple, vow, gradClass]);
+              peiDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
               (gender==="乾") ? peiDeSum[2]++ : peiDeSum[3]++;
               templeClassSummaryObj[templeId][2][2][0]= "培德";
               templeClassSummaryObj[templeId][2][2][1]++;
               break;
             case "4xingDe":
-              xingDe.push([id, name, gender, temple, vow, gradClass]);
+              xingDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
               (gender==="乾") ? xingDeSum[2]++ : xingDeSum[3]++;
               templeClassSummaryObj[templeId][2][3][0]= "行德";
               templeClassSummaryObj[templeId][2][3][1]++;
               break;
             case "5chongDe":
-              chongDe.push([id, name, gender, temple, vow, gradClass]);
+              chongDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
               (gender==="乾") ? chongDeSum[2]++ : chongDeSum[3]++;
               templeClassSummaryObj[templeId][2][4][0]= "崇德";
               templeClassSummaryObj[templeId][2][4][1]++;
@@ -409,7 +424,7 @@ class App extends Component{
     }
 
     //console.log("type:" + type, ", inde:"+ ++index + ", currObj="+dataObj[5]);
-    return dataObj;
+    callback(dataObj);
   }
 
   checkIfSignin(id){
@@ -498,25 +513,36 @@ class App extends Component{
 
   checkGradClass(name, taoClasses){
     const eventYear = this.state.eventYear;
-    //console.log("eventYear=" + eventYear);
+    let gradClass = "";
+
     if(taoClasses){
-      if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate) {
-        if (taoClasses.chongDe.completionDate.substr(0, 10).includes(eventYear)) return "5chongDe" ;
-      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate){
-        if (taoClasses.xingDe.completionDate.substr(0, 10).includes(eventYear)) return "4xingDe";
-      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate){
-        if (taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear)) return "3peiDe";
-      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate){
-        if (taoClasses.zhiShan.completionDate.substr(0, 10).includes(eventYear)) return "2zhiShan";
-      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate){
-        if (taoClasses.xingMing.completionDate.substr(0, 10).includes(eventYear)) return "1xingMing";
+      if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(eventYear)) {
+        gradClass = "5chongDe" ;
+      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(eventYear)){
+        gradClass = "4xingDe";
+      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate && taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear)){
+        gradClass = "3peiDe";
+      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate && taoClasses.zhiShan.completionDate.substr(0, 10).includes(eventYear)){
+        gradClass = "2zhiShan";
+      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate && taoClasses.xingMing.completionDate.substr(0, 10).includes(eventYear)){
+        gradClass = "1xingMing";
       }else{ //others 
-        return "";
+        gradClass = "";
       }
     }else{
       console.log("no grad lass" + name + ": " , taoClasses);
-      return "";
+      gradClass = "";
     }
+    // if(name=="胡艷蘭") {
+    //   console.log("name=" + name + ", taoClasses=" + JSON.stringify(taoClasses));
+    //   console.log("taoClasses.peiDe:"+taoClasses.peiDe);
+    //   console.log("taoClasses.peiDe.completed="+taoClasses.peiDe.completed);
+    //   console.log("taoClasses.peiDe.completionDate:"+taoClasses.peiDe.completionDate);
+    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10));
+    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear));
+    //   console.log("gradClass="+ gradClass);
+    // }
+    return gradClass;
   }
 
   checkTempleId(name){

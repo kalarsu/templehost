@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
 class ClassAttendList extends Component{
+
+    
     render(){
         let classKey="", templeClassSummaryObj = this.props.templeClassSummaryObj;
 
@@ -46,7 +48,7 @@ class ClassAttendList extends Component{
                                     <div className="col-sm-1 col-md-1 col-lg-1">{memberKey+1}</div>
                                     <div className="col-sm-3 col-md-3 col-lg-3">{member[1]}</div>
                                     <div className="col-sm-1 col-md-1 col-lg-1">{member[2]}</div>
-                                    <div className="col-sm-1 col-md-1 col-lg-1">--</div>
+                                    <div className="col-sm-1 col-md-1 col-lg-1">{member[6]}</div>
                                     <div className="col-sm-3 col-md-3 col-lg-3">{member[3]}</div>
                                     <div className="col-sm-3 col-md-3 col-lg-3">{member[4]}</div>
                                 </div>
