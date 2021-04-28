@@ -41,7 +41,7 @@ class ClassAttendList extends Component{
                                 <div className="col-sm-1 col-md-1 col-lg-1">姓別</div>
                                 <div className="col-sm-1 col-md-1 col-lg-1">出席</div>
                                 <div className="col-sm-3 col-md-3 col-lg-3">所屬佛堂</div>
-                                <div className="col-sm-3 col-md-3 col-lg-3">愿力</div>
+                                <div className="col-sm-3 col-md-3 col-lg-3">須立愿力</div>
                             </div>
                             {this.props.classMemberObj[data[1]].map((member, memberKey)=>(
                                 <div className="row table-list-s table-border" key={memberKey}>
@@ -50,7 +50,7 @@ class ClassAttendList extends Component{
                                     <div className="col-sm-1 col-md-1 col-lg-1">{member[2]}</div>
                                     <div className="col-sm-1 col-md-1 col-lg-1">{member[6]}</div>
                                     <div className="col-sm-3 col-md-3 col-lg-3">{member[3]}</div>
-                                    <div className="col-sm-3 col-md-3 col-lg-3">{member[4]}</div>
+                                    <div className="col-sm-3 col-md-3 col-lg-3">{member[7]}</div>
                                 </div>
                             ))}
                             

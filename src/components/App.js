@@ -13,7 +13,7 @@ class App extends Component{
   constructor(){
     super();
     this.state = {
-      event: "", eventYear: "", eventName: "", eventDate: "", classMemberText: "",
+      event: "", dataYear: "", eventName: "", eventDate: "", classMemberText: "",
       tolRquired : 0, tolSignin : 0, tolSigninHost : 0, tolSigninAHost : 0,
       tolSigninDeClass : 0, tolSigninOthers : 0, tolSigninClassMember : 0,
       age : 0, gender : "", tolMale : 0, tolFemale : 0 , tolBoy : 0, tolGirl : 0,
@@ -69,6 +69,7 @@ class App extends Component{
     this.getJsonData = this.getJsonData.bind(this);
     this.getDataSource = this.getDataSource.bind(this);
     this.checkVows = this.checkVows.bind(this);
+    this.checkVowsTobe = this.checkVowsTobe.bind(this);
     this.getVowsName = this.getVowsName.bind(this);
     this.checkIfSignin = this.checkIfSignin.bind(this);
     this.checkIfRequired = this.checkIfRequired.bind(this);
@@ -220,37 +221,36 @@ class App extends Component{
   }
 
   getDataSource(){
-    let signUrl, reqUrl;
     const event = this.getUrlParam("event");
-    const eventYear = this.getUrlParam("eventYear");
+    const dataYear = this.getUrlParam("dataYear");
+    const eventId = this.getUrlParam("eventId");
+    let signUrl = "signin-" + eventId, 
+        reqUrl = "required-" + eventId,
+        today = new Date(),
+        todayDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();
+    
     this.setState({event: event});
-    this.setState({eventYear: eventYear});
-
-		if( event === "temple" ){ //Friday 
-			signUrl = "signin5-" + eventYear;
-			reqUrl = "required5-" + eventYear;
+    this.setState({dataYear: dataYear});
+    
+		if( event === "temple" ){ 
 			this.setState({
         eventName: "固本圖強班",
-        eventDate: "05.01.2020",
+        eventDate: todayDate,
         classMemberText: "壇主、講師、副壇主",
         classMember: "hosts"
       });
-		}else if(event === "host"){ //Saturday
-			signUrl = "signin6-" + eventYear;
-			reqUrl = "required6-" + eventYear;
+		}else if(event === "host"){
 			this.setState({
         eventName: "壇主講師班",
-        eventDate: "05.02.2020",
+        eventDate: todayDate,
         classMemberText: "壇主、講師、副壇主、德字班道親",
         classMember: "hosts-declass"
       });
-		}else{ //Sunday Class memeber
-			signUrl = "signin7-" + eventYear;
-			reqUrl = "required7-" + eventYear;
+		}else{
       this.setState({
         eventName: "畢班、人才提拔",
-        eventDate: "05.03.2020",
-        classMemberText: eventYear + " 年進修班畢班班員",
+        eventDate: todayDate,
+        classMemberText: dataYear + " 年進修班畢班班員",
         classMember: "class-member"
       });
     }
@@ -280,7 +280,7 @@ class App extends Component{
     console.log("jsonToObj Type=" + type);
 
     let classMember= "", dataObj={}, dataArr=[], 
-        id, name, gender, temple, templeId, vow, gradClass, 
+        id, name, gender, temple, templeId, vow, gradClass, vowTobe, 
         xingMing=[], zhiShan=[],peiDe=[], xingDe=[], chongDe=[],
         xingMingSum = this.state.classSummaryArr[0], //[0,0,0,0] tolReqMale = 0, tolReqFemale = 0, tolSigninMale = 0, tolSigninFemale = 0,
         zhiShanSum = this.state.classSummaryArr[1],
@@ -298,11 +298,15 @@ class App extends Component{
       temple = item.currentTemple;
       vow = this.checkVows(id, type, name, item.vows, item.taoClasses);
       gradClass = this.checkGradClass(name, item.taoClasses);
-      
+      console.log("name=" + name);
+      console.log("gradClass=" + gradClass);
+      vowTobe = this.checkVowsTobe(gradClass,item.vows);
+      console.log("vowTobe=" + vowTobe);
       if(temple==undefined) {
         temple = "其它";
         console.log("! Name=" + name + "--has no temple assigned, assigned to 其它 for now.");
       }
+
       temple = temple.substring(0,2);
       templeId = this.checkTempleId(temple);
       if (temple==="崇慧") temple = "沾德";
@@ -323,32 +327,32 @@ class App extends Component{
           //console.log("gradClass=" + gradClass);
           switch(gradClass){
             case "1xingMing":
-              xingMing.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
+              xingMing.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
               (gender==="乾") ? xingMingSum[2]++ : xingMingSum[3]++;
               
               templeClassSummaryObj[templeId][2][0][0]= "新民";
               templeClassSummaryObj[templeId][2][0][1]++;
               break;
             case "2zhiShan":
-              zhiShan.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
+              zhiShan.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
               (gender==="乾") ? zhiShanSum[2]++ : zhiShanSum[3]++;
               templeClassSummaryObj[templeId][2][1][0]= "至善";
               templeClassSummaryObj[templeId][2][1][1]++;
               break;
             case "3peiDe":
-              peiDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
+              peiDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
               (gender==="乾") ? peiDeSum[2]++ : peiDeSum[3]++;
               templeClassSummaryObj[templeId][2][2][0]= "培德";
               templeClassSummaryObj[templeId][2][2][1]++;
               break;
             case "4xingDe":
-              xingDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
+              xingDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
               (gender==="乾") ? xingDeSum[2]++ : xingDeSum[3]++;
               templeClassSummaryObj[templeId][2][3][0]= "行德";
               templeClassSummaryObj[templeId][2][3][1]++;
               break;
             case "5chongDe":
-              chongDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id)]);
+              chongDe.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
               (gender==="乾") ? chongDeSum[2]++ : chongDeSum[3]++;
               templeClassSummaryObj[templeId][2][4][0]= "崇德";
               templeClassSummaryObj[templeId][2][4][1]++;
@@ -494,6 +498,32 @@ class App extends Component{
 		return false;
   }
 
+  checkVowsTobe(gradClass, vows){
+    if(gradClass == "1xingMing"){
+      if(vows!=undefined){
+        if(vows["taoHelper"] && vows["taoHelper"].made){
+            return "辦事人員-已立";
+        }else{
+          return "辦事人員";
+        }
+      }else{
+        return "辦事人員";
+      }
+    }else if(gradClass == "2zhiShan"){
+      if(vows !== undefined){
+        if(vows["assistantLecturer"] && vows["assistantLecturer"].made){
+          return "講員-已立";
+        }else{
+          return "講員";
+        }
+      }else{
+        return "講員";
+      }
+    }else{
+      return "---";
+    }
+  }
+
   getVowsName(vow){
     switch(vow){
       case "1master":
@@ -512,19 +542,19 @@ class App extends Component{
   }
 
   checkGradClass(name, taoClasses){
-    const eventYear = this.state.eventYear;
+    const dataYear = this.state.dataYear;
     let gradClass = "";
 
     if(taoClasses){
-      if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(eventYear)) {
+      if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(dataYear)) {
         gradClass = "5chongDe" ;
-      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(eventYear)){
+      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(dataYear)){
         gradClass = "4xingDe";
-      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate && taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear)){
+      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate && taoClasses.peiDe.completionDate.substr(0, 10).includes(dataYear)){
         gradClass = "3peiDe";
-      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate && taoClasses.zhiShan.completionDate.substr(0, 10).includes(eventYear)){
+      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate && taoClasses.zhiShan.completionDate.substr(0, 10).includes(dataYear)){
         gradClass = "2zhiShan";
-      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate && taoClasses.xingMing.completionDate.substr(0, 10).includes(eventYear)){
+      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate && taoClasses.xingMing.completionDate.substr(0, 10).includes(dataYear)){
         gradClass = "1xingMing";
       }else{ //others 
         gradClass = "";
@@ -539,7 +569,7 @@ class App extends Component{
     //   console.log("taoClasses.peiDe.completed="+taoClasses.peiDe.completed);
     //   console.log("taoClasses.peiDe.completionDate:"+taoClasses.peiDe.completionDate);
     //   console.log(taoClasses.peiDe.completionDate.substr(0, 10));
-    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10).includes(eventYear));
+    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10).includes(dataYear));
     //   console.log("gradClass="+ gradClass);
     // }
     return gradClass;
@@ -662,7 +692,7 @@ class App extends Component{
         <hr/>
         <ClassAttendList
           event = {this.state.event}
-          eventYear = {this.state.eventYear}
+          dataYear = {this.state.dataYear}
           templeClassSummaryObj = {this.state.templeClassSummaryObj}
           classSummaryArr = {this.state.classSummaryArr}
           classMemberObj = {this.state.classMemberObj}
