@@ -5,6 +5,7 @@ import HostSummary from './HostSummary';
 import HostAttendantSummary from './HostAttendantSummary';
 import HostAttendRate from './HostAttendRate';
 import HostAttendantByTemple from './HostAttendantByTemple';
+import AllAttendantRate from './AllAttendantRate';
 import {findIndex, without} from 'lodash';
 import ClassAttendRate from './ClassAttendRate';
 import ClassAttendList from './ClassAttendList';
@@ -21,47 +22,48 @@ class App extends Component{
       zanDe: [], henDe: [], tonDe: [], zenDe: [], zuDe: [], minDe: [], sanDe: [], 
       hanDe: [], zanWa: [],otherTemple: [], 
       requiredObj: {}, signinObj: {}, vowToBeObj: {},
-      classMember: "", 
+      templeList: [], lassMember: "", 
       zanDeReq: 0, henDeReq: 0, tonDeReq: 0, zenDeReq: 0, zuDeReq: 0, minDeReq: 0,
       sanDeReq: 0, hanDeReq: 0, zanWaReq: 0, othersReq: 0,
       zanDeSignin: 0, henDeSignin: 0, tonDeSignin: 0, zenDeSignin: 0, zuDeSignin: 0,
       minDeSignin: 0, sanDeSignin: 0, hanDeSignin: 0, zanWaSignin: 0, othersSignin: 0,
-      templeList: [], vow: ["辦事人員", "", "", "", ""],
+      vow: ["辦事人員", "", "", "", ""],
       templeClassSummaryObj:[
-        ["zanDe", "沾德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]], //["新民",tolReq,rolSignin] etc
-				["henDe", "恆德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["tonDe", "同德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["zenDe", "正德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["zuDe",  "儒德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["minDe", "明德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["sanDe", "聖德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["hanDe", "涵德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["zanWa", "贊化",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["others","其它",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+        ["zanDe", "沾德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]], //["新民",tolReq,rolSignin] etc
+				["henDe", "恆德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["tonDe", "同德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["zenDe", "正德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["zuDe",  "儒德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["minDe", "明德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["sanDe", "聖德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["hanDe", "涵德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["zanWa", "贊化",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+				["others","其它",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
       ],
       classMemberObj: {
 				"xingMing": [],
 				"zhiShan": [],
 				"peiDe": [],
 				"xingDe": [],
-				"chongDe": []
+				"chongDe": [],
+        "lecturer": [],
       },
       classVowObj: {
 				"xingMing": "辦事人員",
 				"zhiShan": "講員",
 				"peiDe": "",
 				"xingDe": "",
-				"chongDe": ""
+				"chongDe": "",
+        "lecturer" : "講師",
       },
       classSummaryArr:[
 				["新民","xingMing",0,0,0,0],
 				["至善","zhiShan",0,0,0,0],
 				["培德","peiDe",0,0,0,0],
 				["行德","xingDe",0,0,0,0],
-				["崇德","chongDe",0,0,0,0] //tolReq乾，tolReq坤, tolSignin乾，tolSign坤	
-      ]
-      
-      // classListObj: {"新民班": 0, "至善班": 1, "培德班": 2, "行德班": 3, "崇德班": 4}
+				["崇德","chongDe",0,0,0,0],
+        ["講培","lecturer",0,0,0,0], //tolReq乾，tolReq坤, tolSignin乾，tolSign坤	
+      ] // classListObj: {"新民班": 0, "至善班": 1, "培德班": 2, "行德班": 3, "崇德班": 4}
     }
     
     this.getTempleList = this.getTempleList.bind(this);
@@ -224,11 +226,19 @@ class App extends Component{
     const event = this.getUrlParam("event");
     const dataYear = this.getUrlParam("dataYear");
     const eventId = this.getUrlParam("eventId");
-    let signUrl = "signin-" + eventId, 
-        reqUrl = "required-" + eventId,
+    let systemUrl = window.location.origin, signUrl, reqUrl,    
         today = new Date(),
         todayDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();
     
+    if(systemUrl.indexOf("localhost") === -1){
+      signUrl = systemUrl+ "/api/v1/attendees/events/"+ eventId +"?action=SIGNIN"; 
+      reqUrl  = systemUrl + "/api/v1/attendees/events/"+ eventId +"?action=REQUIRED";
+    }else{
+      signUrl = "./json/signin-" + eventId + ".json";
+      reqUrl = "./json/required-" + eventId + ".json";
+    }
+
+    console.log("signurl="+signUrl);
     this.setState({event: event});
     this.setState({dataYear: dataYear});
     
@@ -281,12 +291,13 @@ class App extends Component{
 
     let classMember= "", dataObj={}, dataArr=[], 
         id, name, gender, temple, templeId, vow, gradClass, vowTobe, 
-        xingMing=[], zhiShan=[],peiDe=[], xingDe=[], chongDe=[],
+        xingMing=[], zhiShan=[],peiDe=[], xingDe=[], chongDe=[],lecturer=[],
         xingMingSum = this.state.classSummaryArr[0], //[0,0,0,0] tolReqMale = 0, tolReqFemale = 0, tolSigninMale = 0, tolSigninFemale = 0,
         zhiShanSum = this.state.classSummaryArr[1],
         peiDeSum = this.state.classSummaryArr[2],
         xingDeSum = this.state.classSummaryArr[3],
         chongDeSum = this.state.classSummaryArr[4],
+        lecturerSum = this.state.classSummaryArr[5],
         classMemberObj={},classSummaryArr=[], 
         templeClassSummaryObj=this.state.templeClassSummaryObj;    
         classMember = this.state.classMember;
@@ -298,10 +309,10 @@ class App extends Component{
       temple = item.currentTemple;
       vow = this.checkVows(id, type, name, item.vows, item.taoClasses);
       gradClass = this.checkGradClass(name, item.taoClasses);
-      console.log("name=" + name);
-      console.log("gradClass=" + gradClass);
+      // console.log("name=" + name);
+      // console.log("gradClass=" + gradClass);
       vowTobe = this.checkVowsTobe(gradClass,item.vows);
-      console.log("vowTobe=" + vowTobe);
+      //console.log("vowTobe=" + vowTobe);
       if(temple==undefined) {
         temple = "其它";
         console.log("! Name=" + name + "--has no temple assigned, assigned to 其它 for now.");
@@ -358,6 +369,12 @@ class App extends Component{
               templeClassSummaryObj[templeId][2][4][1]++;
               //console.log("required 崇德="+name);
               break;
+            case "6lecturer":
+                lecturer.push([id, name, gender, temple, vow, gradClass, this.checkIfSignin(id), vowTobe]);
+                (gender==="乾") ? lecturerSum[2]++ : lecturerSum[3]++;
+                templeClassSummaryObj[templeId][2][5][0]= "講培";
+                templeClassSummaryObj[templeId][2][5][1]++;
+                break;  
           }
         }
       }else{ //type === "signin"
@@ -392,6 +409,11 @@ class App extends Component{
               templeClassSummaryObj[templeId][2][4][2]++;
               //console.log("signin 崇德="+name);
               break;
+            case "6lecturer":
+                (gender==="乾") ? lecturerSum[4]++ : lecturerSum[5]++;
+                templeClassSummaryObj[templeId][2][5][0]= "講培";
+                templeClassSummaryObj[templeId][2][5][2]++;
+                break;
           }
         }
       }
@@ -410,6 +432,7 @@ class App extends Component{
         classMemberObj.peiDe = peiDe;
         classMemberObj.xingDe = xingDe;
         classMemberObj.chongDe = chongDe;
+        classMemberObj.lecturer = lecturer;
         this.setState({classMemberObj: classMemberObj});
         this.setState({templeClassSummaryObj: templeClassSummaryObj});
         //console.log("classMemberObj=" + JSON.stringify(classMemberObj));
@@ -421,6 +444,7 @@ class App extends Component{
       classSummaryArr[2] = peiDeSum;
       classSummaryArr[3] = xingDeSum;
       classSummaryArr[4] = chongDeSum;
+      classSummaryArr[5] = lecturerSum;
       this.setState({classSummaryArr: classSummaryArr});
       this.setState({templeClassSummaryObj: templeClassSummaryObj});
       // console.log("classSummaryArr=" + JSON.stringify(classSummaryArr));
@@ -519,6 +543,16 @@ class App extends Component{
       }else{
         return "講員";
       }
+    }else if(gradClass == "6lecturer"){
+      if(vows !== undefined){
+        if(vows["lecturer"] && vows["lecturer"].made){
+          return "講師-已立";
+        }else{
+          return "講師";
+        }
+      }else{
+        return "講師";
+      }
     }else{
       return "---";
     }
@@ -546,7 +580,9 @@ class App extends Component{
     let gradClass = "";
 
     if(taoClasses){
-      if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(dataYear)) {
+      if(taoClasses.lecturer && taoClasses.lecturer.completed === true && taoClasses.lecturer.completionDate && taoClasses.lecturer.completionDate.substr(0, 10).includes(dataYear)) {
+        gradClass = "6lecturer" ;
+      }else if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(dataYear)) {
         gradClass = "5chongDe" ;
       }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(dataYear)){
         gradClass = "4xingDe";
@@ -625,7 +661,8 @@ class App extends Component{
 
   getJsonData(_url, callback){
     console.log("Json _url=" + _url);
-    fetch('./json/'+_url + '.json')
+    
+    fetch(_url)
     .then(response => response.json())
     .then(result => {
        callback(result);
@@ -633,7 +670,15 @@ class App extends Component{
   }
 
   getTempleList(){
-    fetch('./json/templeList.json')
+    let systemUrl = window.location.origin, url;
+    if(systemUrl.indexOf("localhost") === -1){
+      url = systemUrl + "/static/json/templeList.json";
+    }else{
+      url = "./json/templeList.json";
+    }
+    console.log("getTempleList=" + url);
+
+    fetch(url)
     .then(response => response.json())
     .then(result => {
       const tempList = result.map(item => {
@@ -679,6 +724,12 @@ class App extends Component{
             tolSigninOthers = {this.state.tolSigninOthers}
           />
         </div>
+        <AllAttendantRate
+          templeList = {this.state.templeList}
+          requiredArr = {this.state.requiredArr}
+          tolSignin = {this.state.tolSignin}
+        />
+        <hr/>
         <HostAttendRate
           templeList = {this.state.templeList}
           requiredArr = {this.state.requiredArr}

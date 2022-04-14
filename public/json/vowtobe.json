@@ -1,0 +1,9 @@
+[
+    {"id":25,"name":"蔡珠平","vowtobe":{"templeHost":true, "vegetarian":true}}, 
+    {"id":145,"name":"胡艷蘭","vowtobe":{"templeHost":true}},
+    {"id":147,"name":"Travis Raymond Spires","vowtobe":{"vegetarian":true}},
+    {"id":25,"name":"蔡珠平","vowtobe":{"assistantTempleHost":true,"assistantLecturer":true}},
+    {"id":57,"name":"李鳳玲","vowtobe":{"templeHost":true,"lecturer":true}},
+    {"id":328,"name":"李進健","vowtobe":{"assistantTempleHost":true,"vegetarian":true}},
+    {"id":341,"name":"唐家賓","vowtobe":{"templeHost":true,"vegetarian":true}}
+]
