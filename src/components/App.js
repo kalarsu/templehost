@@ -110,6 +110,9 @@ class App extends Component{
         _templeId = 9; //其它單位
       }
 
+      //sum up all attendent by temple
+      _templeList[_templeId]["tolAllSignin"] ++;
+
       if(this.checkIfClassMember(vow, gradClass) && required ==="no") {
         notClassMemberCount ++;
         //console.log("classMember=" + classMember);
@@ -161,6 +164,7 @@ class App extends Component{
       }
         
       //console.log("templeInof=" + _templeList[_templeId]["templeName"]);
+      //sum up temple host, Ahost, and deClass members in this temple
       if (this.checkIfClassMember(vow, gradClass)) {
         _templeList[_templeId]["tolReq"] ++ ;
         if(signin === "yes"){
@@ -726,14 +730,11 @@ class App extends Component{
         </div>
         <AllAttendantRate
           templeList = {this.state.templeList}
-          requiredArr = {this.state.requiredArr}
           tolSignin = {this.state.tolSignin}
         />
         <hr/>
         <HostAttendRate
           templeList = {this.state.templeList}
-          requiredArr = {this.state.requiredArr}
-          tolSignin = {this.state.tolSignin}
         />
         <hr/>
         <ClassAttendRate

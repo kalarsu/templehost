@@ -8,7 +8,7 @@ class HostAttendRate extends Component{
             <div id="host_p2_attend_rate" className="main-container">
                 <div className="row">
                     <div className="col-md-12">
-                    <h3>各壇壇主、講師、副壇主、德字班出席率總表 {this.props.tolSignin}</h3>
+                    <h3>各壇壇主、講師、副壇主、德字班出席率總表</h3>
                     </div>
                 </div>
                 <div className="table-list">
