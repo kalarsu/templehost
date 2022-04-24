@@ -4,7 +4,7 @@ class HostAttendantByTemple extends Component{
     render(){
 
         return(
-            <div id="host_p3_by_temple" className="main-container">
+            <div id="host_p3_by_temple" className="main-container page-break">
                 <div className="row">
                     <div className="col-md-12">
                         <h1>舊金山區</h1>
@@ -14,7 +14,7 @@ class HostAttendantByTemple extends Component{
                     <div className="table-divider">
 
                     {this.props.templeList.map(data => (
-                        <div className="temple-wrap" key={data.templeId}>
+                        <div className="temple-wrap page-break" key={data.templeId}>
                             <div className="" zande="">
                                 <div className="row">
                                     <div className="col-sm-12 col-md-12 col-lg-12">

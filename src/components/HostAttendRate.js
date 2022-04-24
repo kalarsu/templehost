@@ -5,13 +5,13 @@ class HostAttendRate extends Component{
         
         let _sumReq= 0, _sumSignin= 0; 
         return(
-            <div id="host_p2_attend_rate" className="main-container">
+            <div id="host_p2_attend_rate" className="main-container page-break">
                 <div className="row">
                     <div className="col-md-12">
                     <h3>各壇壇主、講師、副壇主、德字班出席率總表</h3>
                     </div>
                 </div>
-                <div className="table-list">
+                <div className="table-list-m">
                     <div className="row table-border">
                         <div className="col-sm-12 col-md-12 col-lg-12"><h6 className="form-title">舊金山區</h6></div>
                     </div>

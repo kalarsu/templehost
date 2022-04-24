@@ -54,8 +54,11 @@ table{
 .table-list .row>div{
 	padding: 10px 15px;
 }
-.table-list-s.row>div{
+.table-list-s .row>div{
 	padding: 6px 15px;
+}
+.table-list-m .row>div{
+	padding: 7px 15px;
 }
 .table-list-l.row>div{
 	padding: 20px;
@@ -131,4 +134,9 @@ table{
 
 #host_p3_by_temple{
 	margin-top: 1rem;
+}
+
+
+@media print {
+	.page-break {page-break-after: always;}
 }

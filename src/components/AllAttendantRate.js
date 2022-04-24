@@ -11,7 +11,7 @@ class AllAttendantRate extends Component{
                     <h3>各壇出席率總表 {this.props.tolSignin}</h3>
                     </div>
                 </div>
-                <div className="table-list">
+                <div className="table-list-m">
                     <div className="row table-border">
                         <div className="col-sm-12 col-md-12 col-lg-12"><h6 className="form-title">舊金山區</h6></div>
                     </div>

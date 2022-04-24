@@ -4,13 +4,13 @@ class ClassAttendRate extends Component{
     render(){
         let temple;
         return(
-            <div id="class_member_attend_rate" className={'main-container ' + (this.props.event === 'class' ? '': 'hide')}>
+            <div id="class_member_attend_rate" className={'page-break main-container ' + (this.props.event === 'class' ? '': 'hide')}>
                 <div className="row">
                     <div className="col-md-12">
                         <h3>各壇班員統計</h3>
                     </div>
                 </div>
-                <div className="table-list">
+                <div className="table-list-s">
                     <div className="row table-border">
                         <div className="col-sm-3 col-md-3 col-lg-3"></div>
                         <div className="col-sm-3 col-md-3 col-lg-3 bold">班別</div>

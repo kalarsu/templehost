@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class HostAttendantSummary extends Component{
     render(){
         return(
-            <div className="block-container table-list">
+            <div className="block-container table-list-m page-break">
                 <div className="row">
                     <div className="col-sm-12 col-md-12 col-lg-12"><h3>活動人數統計：</h3></div>
                 </div>
