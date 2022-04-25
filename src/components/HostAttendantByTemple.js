@@ -41,7 +41,8 @@ class HostAttendantByTemple extends Component{
                             </div>
                             {
                                 data.templeArr
-                                .sort((a, b) => a[3] > b[3] ? 1 : -1)
+                                .sort((a, b) => a[4] > b[4] ? 1 : -1) //sort by attendence
+                                .sort((a, b) => a[3] > b[3] ? 1 : -1) //sort by title
                                 .map((subItem, key) => (
                                     <div className="row table-list-s table-border" key={subItem[0]}>
                                         <div className="col-sm-2 col-md-2 col-lg-2">{key+1}</div>

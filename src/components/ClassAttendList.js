@@ -43,7 +43,10 @@ class ClassAttendList extends Component{
                                 <div className="col-sm-3 col-md-3 col-lg-3">所屬佛堂</div>
                                 <div className="col-sm-3 col-md-3 col-lg-3">須立愿力</div>
                             </div>
-                            {this.props.classMemberObj[data[1]].map((member, memberKey)=>(
+                            {this.props.classMemberObj[data[1]]
+                            .sort((a, b) => a[3] > b[3] ? -1 : 1) //sort by temple
+                            .sort((a, b) => a[6] > b[6] ? -1 : 1) //sort by attendance
+                            .map((member, memberKey)=>(
                                 <div className="row table-list-s table-border" key={memberKey}>
                                     <div className="col-sm-1 col-md-1 col-lg-1">{memberKey+1}</div>
                                     <div className="col-sm-3 col-md-3 col-lg-3">{member[1]}</div>

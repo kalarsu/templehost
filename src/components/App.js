@@ -19,8 +19,7 @@ class App extends Component{
       tolSigninDeClass : 0, tolSigninOthers : 0, tolSigninClassMember : 0,
       age : 0, gender : "", tolMale : 0, tolFemale : 0 , tolBoy : 0, tolGirl : 0,
       requiredArr: [], signinArr: [],
-      zanDe: [], henDe: [], tonDe: [], zenDe: [], zuDe: [], minDe: [], sanDe: [], 
-      hanDe: [], zanWa: [],otherTemple: [], 
+      zanDe: [], henDe: [], tonDe: [], zenDe: [], zuDe: [], minDe: [], sanDe: [], otherTemple: [], 
       requiredObj: {}, signinObj: {}, vowToBeObj: {},
       templeList: [], lassMember: "", 
       zanDeReq: 0, henDeReq: 0, tonDeReq: 0, zenDeReq: 0, zuDeReq: 0, minDeReq: 0,
@@ -36,8 +35,6 @@ class App extends Component{
 				["zuDe",  "儒德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["minDe", "明德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["sanDe", "聖德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["hanDe", "涵德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
-				["zanWa", "贊化",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["others","其它",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
       ],
       classMemberObj: {
@@ -603,15 +600,6 @@ class App extends Component{
       console.log("no grad lass" + name + ": " , taoClasses);
       gradClass = "";
     }
-    // if(name=="胡艷蘭") {
-    //   console.log("name=" + name + ", taoClasses=" + JSON.stringify(taoClasses));
-    //   console.log("taoClasses.peiDe:"+taoClasses.peiDe);
-    //   console.log("taoClasses.peiDe.completed="+taoClasses.peiDe.completed);
-    //   console.log("taoClasses.peiDe.completionDate:"+taoClasses.peiDe.completionDate);
-    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10));
-    //   console.log(taoClasses.peiDe.completionDate.substr(0, 10).includes(dataYear));
-    //   console.log("gradClass="+ gradClass);
-    // }
     return gradClass;
   }
 
@@ -637,17 +625,11 @@ class App extends Component{
         break;
       case "聖德":
         return 6;
-      case "涵德":
-        return 7;
-        break;
-      case "贊化":
-        return 8;
-        break;
       case "其它":
-        return 9; 
+        return 7; 
         break;
       default:
-        return 9; 
+        return 7; 
         break;          
     }
   }
