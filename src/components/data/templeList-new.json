@@ -85,9 +85,9 @@
     }, 
     {
         "templeId": 7,
-        "temple": "hanDe",
+        "temple": "fuDe",
         "templeArr": [],
-        "templeName": "涵德壇",
+        "templeName": "富德壇",
         "tolReq": 0, 
         "tolSignin": 0, 
         "tolHost": 0, 
@@ -97,18 +97,6 @@
     }, 
     {
         "templeId": 8,
-        "temple": "zanWa",
-        "templeArr": [],
-        "templeName": "贊化壇",
-        "tolReq": 0, 
-        "tolSignin": 0, 
-        "tolHost": 0, 
-        "tolAHost": 0, 
-        "tolDeclass": 0,
-        "tolOthers": 0
-    }, 
-    {
-        "templeId": 9,
         "temple": "otherTemple",
         "templeArr": [],
         "templeName": "其它單位",

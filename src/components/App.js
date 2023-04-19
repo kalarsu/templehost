@@ -9,6 +9,7 @@ import AllAttendantRate from './AllAttendantRate';
 import {findIndex, without} from 'lodash';
 import ClassAttendRate from './ClassAttendRate';
 import ClassAttendList from './ClassAttendList';
+// import allTempleList from './data/templeList-new.json'; 
 
 class App extends Component{
   constructor(){
@@ -35,6 +36,7 @@ class App extends Component{
 				["zuDe",  "儒德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["minDe", "明德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["sanDe", "聖德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
+        ["fuDe",  "富德",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
 				["others","其它",[["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0], ["",0,0]]],
       ],
       classMemberObj: {
@@ -625,11 +627,15 @@ class App extends Component{
         break;
       case "聖德":
         return 6;
+        break;
+      case "富德":
+        return 7;
+        break;  
       case "其它":
-        return 7; 
+        return 8; 
         break;
       default:
-        return 7; 
+        return 8; 
         break;          
     }
   }
@@ -658,7 +664,7 @@ class App extends Component{
   getTempleList(){
     let systemUrl = window.location.origin, url;
     if(systemUrl.indexOf("localhost") === -1){
-      url = systemUrl + "/static/json/templeList.json";
+      url = `${systemUrl}/static/json/templeList.json`;
     }else{
       url = "./json/templeList.json";
     }
@@ -673,6 +679,13 @@ class App extends Component{
       this.setState({templeList: tempList});
     });
   }
+
+  // getTempleList(){
+  //   const tempList = allTempleList.map(item => {
+  //     return item;
+  //   });
+  //   this.setState({templeList: tempList});
+  // }
 
   componentDidMount(){
     this.getDataSource();
