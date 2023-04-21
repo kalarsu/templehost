@@ -15,7 +15,7 @@ class App extends Component{
   constructor(){
     super();
     this.state = {
-      event: "", dataYear: "", eventName: "", eventDate: "", classMemberText: "",
+      event: "", dataYear:"", dataMonth:"", dateString: "", eventName: "", eventDate: "", classMemberText: "",
       tolRquired : 0, tolSignin : 0, tolSigninHost : 0, tolSigninAHost : 0,
       tolSigninDeClass : 0, tolSigninOthers : 0, tolSigninClassMember : 0,
       age : 0, gender : "", tolMale : 0, tolFemale : 0 , tolBoy : 0, tolGirl : 0,
@@ -228,11 +228,21 @@ class App extends Component{
   getDataSource(){
     const event = this.getUrlParam("event");
     const dataYear = this.getUrlParam("dataYear");
+    const dataMonth = this.getUrlParam("dataMonth");
     const eventId = this.getUrlParam("eventId");
+    let dateString = dataYear;
     let systemUrl = window.location.origin, signUrl, reqUrl,    
         today = new Date(),
         todayDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();
+    let eventSubTitle = "";
+
+    if(dataMonth !== undefined) dateString = "-" + dataMonth;
     
+    this.setState({event: event});
+    this.setState({dataYear: dataYear});
+    this.setState({dataMonth: dataMonth});
+    this.setState({dateString: dateString});
+
     if(systemUrl.indexOf("localhost") === -1){
       signUrl = systemUrl+ "/api/v1/attendees/events/"+ eventId +"?action=SIGNIN"; 
       reqUrl  = systemUrl + "/api/v1/attendees/events/"+ eventId +"?action=REQUIRED";
@@ -242,8 +252,6 @@ class App extends Component{
     }
 
     console.log("signurl="+signUrl);
-    this.setState({event: event});
-    this.setState({dataYear: dataYear});
     
 		if( event === "temple" ){ 
 			this.setState({
@@ -260,10 +268,14 @@ class App extends Component{
         classMember: "hosts-declass"
       });
 		}else{
+      eventSubTitle = dataYear + "年";
+      if(dataMonth !== undefined) eventSubTitle += dataMonth + "月";
+      eventSubTitle += "進修班畢班班員";
+      
       this.setState({
         eventName: "畢班、人才提拔",
         eventDate: todayDate,
-        classMemberText: dataYear + " 年進修班畢班班員",
+        classMemberText: eventSubTitle,
         classMember: "class-member"
       });
     }
@@ -580,20 +592,21 @@ class App extends Component{
 
   checkGradClass(name, taoClasses){
     const dataYear = this.state.dataYear;
+    const dateString = this.state.dateString;
     let gradClass = "";
 
     if(taoClasses){
-      if(taoClasses.lecturer && taoClasses.lecturer.completed === true && taoClasses.lecturer.completionDate && taoClasses.lecturer.completionDate.substr(0, 10).includes(dataYear)) {
+      if(taoClasses.lecturer && taoClasses.lecturer.completed === true && taoClasses.lecturer.completionDate && taoClasses.lecturer.completionDate.substr(0, 10).includes(dateString)) {
         gradClass = "6lecturer" ;
-      }else if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(dataYear)) {
+      }else if(taoClasses.chongDe && taoClasses.chongDe.completed === true && taoClasses.chongDe.completionDate && taoClasses.chongDe.completionDate.substr(0, 10).includes(dateString)) {
         gradClass = "5chongDe" ;
-      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(dataYear)){
+      }else if(taoClasses.xingDe && taoClasses.xingDe.completed === true && taoClasses.xingDe.completionDate && taoClasses.xingDe.completionDate.substr(0, 10).includes(dateString)){
         gradClass = "4xingDe";
-      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate && taoClasses.peiDe.completionDate.substr(0, 10).includes(dataYear)){
+      }else if(taoClasses.peiDe && taoClasses.peiDe.completed === true && taoClasses.peiDe.completionDate && taoClasses.peiDe.completionDate.substr(0, 10).includes(dateString)){
         gradClass = "3peiDe";
-      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate && taoClasses.zhiShan.completionDate.substr(0, 10).includes(dataYear)){
+      }else if(taoClasses.zhiShan && taoClasses.zhiShan.completed === true && taoClasses.zhiShan.completionDate && taoClasses.zhiShan.completionDate.substr(0, 10).includes(dateString)){
         gradClass = "2zhiShan";
-      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate && taoClasses.xingMing.completionDate.substr(0, 10).includes(dataYear)){
+      }else if(taoClasses.xingMing && taoClasses.xingMing.completed === true && taoClasses.xingMing.completionDate && taoClasses.xingMing.completionDate.substr(0, 10).includes(dateString)){
         gradClass = "1xingMing";
       }else{ //others 
         gradClass = "";
