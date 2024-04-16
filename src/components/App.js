@@ -236,7 +236,7 @@ class App extends Component{
         todayDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();
     let eventSubTitle = "";
 
-    if(dataMonth !== undefined) dateString = "-" + dataMonth;
+    if(dataMonth !== undefined) dateString += "-" + dataMonth;
     
     this.setState({event: event});
     this.setState({dataYear: dataYear});
@@ -657,7 +657,7 @@ class App extends Component{
     let getAction="", url = "";
     url = new URLSearchParams(window.location.search);
     getAction = url.get(parameter);
-    if(getAction===null){
+    if(getAction===null || getAction ===undefined){
       alert("You forgot to enter event type in the URL parameter! This page wont be generating correct data! Enter ex: ?event=temple, host, class");
     }else{
       return getAction;
